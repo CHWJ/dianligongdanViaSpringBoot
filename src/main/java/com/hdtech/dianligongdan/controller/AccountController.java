@@ -28,14 +28,13 @@ public class AccountController extends BaseController {
     }
 
     @PostMapping("/login")
-    public Response login(Account account, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public Response login(Account account) throws IOException {
         if(account!=null){
             String newpassword = DigestUtils.md5DigestAsHex(account.getPassword().getBytes()).toLowerCase();
             Account result = accountRepository.findByUsernameAndPassword(account.getUsername(),newpassword);
             if(result!=null){
                 // todo loinglog
-                String contextPath = request.getContextPath();
-                response.sendRedirect(contextPath+"/home/index");
+                return new Response("","登录成功！","/home/index");
             }else {
                 return new Response("","用户名或者密码错误！");
             }

@@ -1,19 +1,109 @@
 <!DOCTYPE html>
-<html layout:decorate="~{shared/easuiFormLayout}">
-<head>
-    <title></title>
-    <style type="text/css">
+<html layout:decorate="~{shared/easuiIndexLayout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+    <head>
+        <title></title>
+        <style type="text/css">
+            body{
+                margin: 0;
+                padding: 0;
+            }
+            #top-panel a {
+                text-decoration: none;
+                margin-right: 20px;
+            }
 
-    </style>
-    <script th:inline="javascript">
+            #west-menu ul{
+                list-style-type: none;
+                margin: 0;
+                padding: 10px;
+            }
+            #west-menu ul li div{
+                margin: 2px 0;
+                padding-left: 10px;
+                padding-top: 2px;
+            }
+            #west-menu ul li div:hover{
+                border:1px dashed #99BBE8; background:#E0ECFF;cursor:pointer;
+            }
+            #west-menu ul li div.selected a{
+                color:#416AA3; font-weight:bold;
+            }
+            #west-menu ul li a{
+                color: #000;
+                text-decoration: none;
+                line-height: 24px;
+            }
+            #west-menu ul li a:link{
+                text-decoration: none;
+            }
+        </style>
+        <script th:inline="javascript">
+            var host = [[${#httpServletRequest.getContextPath()}]];
+            $(function () {
+                $("#top-left").css("background-image","url("+host+"/img/home/top-left-background.png)");
+                $("#top-right").css("background-image","url("+host+"/img/home/top-right-background.png)");
+                $("#top-left-user").attr("src",host+"/img/home/top-left-user.png");
+                $("#loginout").attr("src",host+"/img/home/top-right-loginout.png");
 
-    </script>
-</head>
-<body >
-<div layout:fragment="content" >
+                initLayout();
+            });
 
-
-</div>
-
-</body>
+            function changePwd() {
+                ///admin_home/repass
+            }
+            function loginout() {
+                ///admin/logout
+            }
+            function initLayout() {
+                $("#main_layout").layout();
+                $("#main_layout").layout('resize', {
+                    width:$(window).width(),
+                    height:$(window).height()
+                });
+            }
+        </script>
+    </head>
+    <body >
+    <div layout:fragment="content" >
+        <div id="main_layout" >
+            <div data-options="region:'north',split:false,border:false" style="height:86px;">
+                <div id="top-panel" style="display: flex;height:81px">
+                    <div id="top-left" style="background: no-repeat;width:271px;">
+                        <img id="top-left-user" style="padding-left: 33px;padding-top: 30px;">
+                        <span style="color: #fff;">[[${roleName}]]：[[${userName}]]</span>
+                    </div>
+                    <div id="top-right" style="background: no-repeat;width: 100%;display: flex;">
+                        <div style="color: #fff;font-size: 2em;padding:20px 0 0 20px;">服务快速响应平台</div>
+                        <div style="right: 20px;position: fixed;top: 43px;">
+                            <a href="#" style="color:#fff;" target="centerFrame" >修改密码</a>
+                            <a href="#" style="color:#fff;" class="exit"  target="_top">
+                                <img id="loginout"  style="padding-right: 5px;" />登出</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div data-options="region:'west',split:true" style="width:215px;">
+                <div id="west-menu" class="easyui-accordion">
+                    <div title="工单管理" data-options="selected:true" style="overflow:auto;padding:10px;">
+                        <ul>
+                            <li><div><a href="#" rel="/map/index"><span style="padding-left:16px" class="icon-table">&nbsp;</span><span>工单定位</span></a></div></li>
+                            <li><div><a href="#"><span style="padding-left:16px" class="icon-table">&nbsp;</span><span>工单管理</span></a></div></li>
+                            <li><div><a href="#"><span style="padding-left:16px" class="icon-table">&nbsp;</span><span>工单报表</span></a></div></li>
+                            <li><div><a href="#"><span style="padding-left:16px" class="icon-table">&nbsp;</span><span>工单时限</span></a></div></li>
+                        </ul>
+                    </div>
+                    <div title="热线模块" data-options="" style="padding:10px;">
+                        <ul>
+                            <li><div><a href="#"><span style="padding-left:16px" class="icon-table">&nbsp;</span><span>热线工单</span></a></div></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div data-options="region:'center',title:'center title'" style="padding:5px;background:#eee;"></div>
+            <div data-options="region:'south',split:false" style="height:50px;">
+                <p style="text-align: center">© 2018 -服务快速响应平台</p>
+            </div>
+        </div>
+    </div>
+    </body>
 </html>
