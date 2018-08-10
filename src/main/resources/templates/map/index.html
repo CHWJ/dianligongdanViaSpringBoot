@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html layout:decorate="~{shared/easuiIndexLayout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+    <head>
+        <title></title>
+        <style type="text/css">
+            body{
+                margin: 0;
+                padding: 0;
+            }
+
+        </style>
+        <script th:inline="javascript">
+            var host = [[${#httpServletRequest.getContextPath()}]];
+
+            $(function () {
+
+            });
+
+        </script>
+    </head>
+    <body >
+    <div layout:fragment="content" >
+        <h1>地图</h1>
+    </div>
+    </body>
+</html>
