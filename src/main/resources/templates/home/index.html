@@ -1,156 +1,181 @@
 <!DOCTYPE html>
-<html layout:decorate="~{shared/easuiIndexLayout}" xmlns:layout="http://www.w3.org/1999/xhtml">
-    <head>
-        <title></title>
-        <style type="text/css">
-            body{
-                margin: 0;
-                padding: 0;
-            }
-            #top-panel a {
-                text-decoration: none;
-                margin-right: 20px;
-            }
+<html layout:decorate="~{shared/easuiIndexLayout}">
+<head>
+    <title></title>
+    <style type="text/css">
+        body {
+            margin: 0;
+            padding: 0;
+        }
 
-            #west-menu ul{
-                list-style-type: none;
-                margin: 0;
-                padding: 10px;
-            }
-            #west-menu ul li div{
-                margin: 2px 0;
-                padding-left: 10px;
-                padding-top: 2px;
-            }
-            #west-menu ul li div:hover{
-                border:1px dashed #99BBE8; background:#E0ECFF;cursor:pointer;
-            }
-            #west-menu ul li div.selected a{
-                color:#416AA3; font-weight:bold;
-            }
-            #west-menu ul li a{
-                color: #000;
-                text-decoration: none;
-                line-height: 24px;
-            }
-            #west-menu ul li a:link{
-                text-decoration: none;
-            }
-        </style>
-        <script th:inline="javascript">
-            var host = [[${#httpServletRequest.getContextPath()}]];
+        #top-panel a {
+            text-decoration: none;
+            margin-right: 20px;
+        }
 
-            $(function () {
-                $("#top-left").css("background-image","url("+host+"/img/home/top-left-background.png)");
-                $("#top-right").css("background-image","url("+host+"/img/home/top-right-background.png)");
-                $("#top-left-user").attr("src",host+"/img/home/top-left-user.png");
-                $("#loginout").attr("src",host+"/img/home/top-right-loginout.png");
+        #west-menu ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 10px;
+        }
 
-                initLayout();
-                initEvent();
-                openFirstMenu();
+        #west-menu ul li div {
+            margin: 2px 0;
+            padding-left: 10px;
+            padding-top: 2px;
+        }
+
+        #west-menu ul li div:hover {
+            border: 1px dashed #99BBE8;
+            background: #E0ECFF;
+            cursor: pointer;
+        }
+
+        #west-menu ul li div.selected a {
+            color: #416AA3;
+            font-weight: bold;
+        }
+
+        #west-menu ul li a {
+            color: #000;
+            text-decoration: none;
+            line-height: 24px;
+        }
+
+        #west-menu ul li a:link {
+            text-decoration: none;
+        }
+    </style>
+    <script th:inline="javascript">
+        var host = [[${#httpServletRequest.getContextPath()}]];
+
+        $(function () {
+            $("#top-left").css("background-image", "url(" + host + "/img/home/top-left-background.png)");
+            $("#top-right").css("background-image", "url(" + host + "/img/home/top-right-background.png)");
+            $("#top-left-user").attr("src", host + "/img/home/top-left-user.png");
+            $("#loginout").attr("src", host + "/img/home/top-right-loginout.png");
+
+            initEvent();
+            openFirstMenu();
+        });
+
+        function changePwd() {
+            ///admin_home/repass
+        }
+
+        function loginout() {
+            ///admin/logout
+        }
+
+        function initEvent() {
+            $("#west-menu li a").on("click", function () {
+                var menus = $(this);
+                var menu = null;
+                if (menus.length > 0) {
+                    menu = menus[0];
+                }
+                if (menu.rel) {
+                    var childrens = $(menus).children();
+                    var title = childrens.last().text();
+                    var iconClass = childrens.first().attr("class");
+                    var num = $(menu).attr("num");
+                    activeTab(host + menu.rel, title, iconClass, num);
+                }
             });
+        }
 
-            function changePwd() {
-                ///admin_home/repass
-            }
-            function loginout() {
-                ///admin/logout
-            }
-            function initLayout() {
-                $("#main_layout").layout().layout('resize', {
-                    width:$(window).width(),
-                    height:$(window).height()
-                });
-            }
-
-            function initEvent() {
-                $("#west-menu li a").on("click",function () {
-                    var menus = $(this);
-                    var menu = null;
-                    if(menus.length >0) {
-                        menu = menus[0];
-                    }
-                    if(menu.rel){
-                        var childrens = $(menus).children();
-                        var title = childrens.last().text();
-                        var iconClass = childrens.first().attr("class");
-                        activeTab( host + menu.rel,title,iconClass);
-                    }
-                });
-            }
-            function openFirstMenu() {
-                var menus = $("#west-menu li a");
-                if(menus.length >0){
-                    var menu = menus[0];
-                    if(menu.rel){
-                        var childrens = $(menu).children();
-                        var title = childrens.last().text();
-                        var iconClass = childrens.first().attr("class");
-                        activeTab( host + menu.rel,title,iconClass);
-                    }
+        function openFirstMenu() {
+            var menus = $("#west-menu li a");
+            if (menus.length > 0) {
+                var menu = menus[1];
+                if (menu.rel) {
+                    var childrens = $(menu).children();
+                    var title = childrens.last().text();
+                    var iconClass = childrens.first().attr("class");
+                    var num = $(menu).attr("num");
+                    activeTab(host + menu.rel, title, iconClass, num);
                 }
             }
-            function activeTab(url,title,iconClass) {
-                var exist = $('#center-tabs').tabs('exists', title);
-                if (exist) {
-                    $('#center-tabs').tabs('select', title);
-                } else {
-                    $('#center-tabs').tabs('add', {
-                        title: title,
-                        //content: createFrame(title, url),
-                        href:url,
-                        //fit:true,
-                        closable: true,
-                        iconCls: iconClass
-                    });
-                }
+        }
+
+        function activeTab(url, title, iconClass, num) {
+            var exist = $('#center-tabs').tabs('exists', title);
+            if (exist) {
+                $('#center-tabs').tabs('select', title);
+            } else {
+                $('#center-tabs').tabs('add', {
+                    title: title,
+                    content: createFrame(num, url),
+                    //href:url,
+                    fit: true,
+                    closable: true,
+                    iconCls: iconClass
+                });
             }
-        </script>
-    </head>
-    <body >
-    <div layout:fragment="content" >
-        <div id="main_layout" >
-            <div data-options="region:'north',split:false,border:false" style="height:86px;">
-                <div id="top-panel" style="display: flex;height:81px">
-                    <div id="top-left" style="background: no-repeat;width:271px;">
-                        <img id="top-left-user" style="padding-left: 33px;padding-top: 30px;">
-                        <span style="color: #fff;">[[${roleName}]]：[[${userName}]]</span>
-                    </div>
-                    <div id="top-right" style="background: no-repeat;width: 100%;display: flex;">
-                        <div style="color: #fff;font-size: 2em;padding:20px 0 0 20px;">服务快速响应平台</div>
-                        <div style="right: 20px;position: fixed;top: 43px;">
-                            <a href="#" style="color:#fff;" target="centerFrame" >修改密码</a>
-                            <a href="#" style="color:#fff;" class="exit"  target="_top">
-                                <img id="loginout"  style="padding-right: 5px;" />登出</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div data-options="region:'west',split:true" style="width:215px;">
-                <div id="west-menu" class="easyui-accordion">
-                    <div title="工单管理" data-options="selected:true" style="overflow:auto;padding:10px;">
-                        <ul>
-                            <li><div><a href="#" rel="/map/index"><span style="padding-left:16px" class="icon-table">&nbsp;</span><span>工单定位</span></a></div></li>
-                            <li><div><a href="#"><span style="padding-left:16px" class="icon-table">&nbsp;</span><span>工单管理</span></a></div></li>
-                            <li><div><a href="#"><span style="padding-left:16px" class="icon-table">&nbsp;</span><span>工单报表</span></a></div></li>
-                            <li><div><a href="#"><span style="padding-left:16px" class="icon-table">&nbsp;</span><span>工单时限</span></a></div></li>
-                        </ul>
-                    </div>
-                    <div title="热线模块" data-options="" style="padding:10px;">
-                        <ul>
-                            <li><div><a href="#"><span style="padding-left:16px" class="icon-table">&nbsp;</span><span>热线工单</span></a></div></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div data-options="region:'center'">
-                <div id="center-tabs" class="easyui-tabs" data-options="fit:true"></div>
-                </div>
-            <div data-options="region:'south',split:false" style="height:50px;">
-                <p style="text-align: center">© 2018 -服务快速响应平台</p>
+            //$("#wnav li div").removeClass("selected");
+            //$(this).parent().addClass("selected")
+        }
+
+        function createFrame(num, url) {
+            return '<iframe id="' + num + '" scrolling="auto" frameborder="0"  src="' + url + '" style="width:100%;height:100%;"></iframe>';
+        }
+    </script>
+</head>
+<body layout:fragment="content" fit="true" class="easyui-layout" border="false">
+<div data-options="region:'north',split:false,border:false" style="height:86px;">
+    <div id="top-panel" style="display: flex;height:81px">
+        <div id="top-left" style="background: no-repeat;width:271px;">
+            <img id="top-left-user" style="padding-left: 33px;padding-top: 30px;">
+            <span style="color: #fff;">[[${roleName}]]：[[${userName}]]</span>
+        </div>
+        <div id="top-right" style="background: no-repeat;width: 100%;display: flex;">
+            <div style="color: #fff;font-size: 2em;padding:20px 0 0 20px;">服务快速响应平台</div>
+            <div style="right: 20px;position: fixed;top: 43px;">
+                <a href="#" style="color:#fff;" target="centerFrame">修改密码</a>
+                <a href="#" style="color:#fff;" class="exit" target="_top">
+                    <img id="loginout" style="padding-right: 5px;"/>登出</a>
             </div>
         </div>
     </div>
-    </body>
+</div>
+<div data-options="region:'west',split:true" style="width:215px;">
+    <div id="west-menu" class="easyui-accordion">
+        <div title="工单管理" data-options="selected:true" style="overflow:auto;padding:10px;">
+            <ul>
+                <li>
+                    <div><a href="#" num="11" rel="/map/index"><span style="padding-left:16px"
+                                                                     class="icon-table">&nbsp;</span><span>工单定位</span></a>
+                    </div>
+                </li>
+                <li>
+                    <div><a href="#" num="22" rel="/workorder/index"><span style="padding-left:16px" class="icon-table">&nbsp;</span><span>工单管理</span></a>
+                    </div>
+                </li>
+                <li>
+                    <div><a href="#"><span style="padding-left:16px"
+                                           class="icon-table">&nbsp;</span><span>工单报表</span></a></div>
+                </li>
+                <li>
+                    <div><a href="#"><span style="padding-left:16px"
+                                           class="icon-table">&nbsp;</span><span>工单时限</span></a></div>
+                </li>
+            </ul>
+        </div>
+        <div title="热线模块" data-options="" style="padding:10px;">
+            <ul>
+                <li>
+                    <div><a href="#"><span style="padding-left:16px"
+                                           class="icon-table">&nbsp;</span><span>热线工单</span></a></div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div data-options="region:'center'">
+    <div id="center-tabs" class="easyui-tabs" data-options="fit:true"></div>
+</div>
+<div data-options="region:'south',split:false" style="height:50px;">
+    <p style="text-align: center">© 2018 -服务快速响应平台</p>
+</div>
+</body>
 </html>

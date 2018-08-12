@@ -1,11 +1,13 @@
-package com.hdtech.dianligongdan.controller;
+package com.hdtech.dianligongdan.service;
 
 import com.hdtech.dianligongdan.utils.easyUiAdapter.PageResult;
 import org.springframework.data.domain.Page;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 
-@Controller
-public class BaseController<T> {
+import java.util.List;
+
+@Service
+public class BaseService<T> {
     protected PageResult<T> toPageResult(Page<T> data){
         PageResult<T> result = new PageResult<>();
         if(data!=null){
@@ -13,5 +15,8 @@ public class BaseController<T> {
             result.setTotal(data.getTotalElements());
         }
         return result;
+    }
+    PageResult<T> toPageResult(List<T> collection, Long total){
+        return new PageResult<>(total,collection);
     }
 }

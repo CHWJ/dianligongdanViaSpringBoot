@@ -1,54 +1,56 @@
 <!DOCTYPE html>
 <html layout:decorate="~{shared/easuiFormLayout}">
-    <head>
-        <title></title>
-        <style type="text/css">
-            #form_login input,img {
-                position: absolute;
-                border: none;
-            }
-        </style>
-        <script th:inline="javascript">
-            var host = [[${#httpServletRequest.getContextPath()}]];
-            $(function () {
-                $("body").css("background-image","url("+host+"/img/login/bg.png)");
-                $("#btn_login").css("background-image","url("+host+"/img/login/login.png)");
-                refreshCode();
-            });
-            function refreshCode() {
-                //$('#imgcode').attr('src', host+'/admin/getcode/' + Math.random());
-            }
-            function login() {
-                var data = SERIALIZE.toObj("form_login");
-                $.ajax({
-                    url: host + "/account/login",
-                    data: data,
-                    type: "post",
-                    dataType: "json",
-                    success: function (r) {
-                        if(r){
-                            $.messager.alert('提示',r.message);
+<head>
+    <title></title>
+    <style type="text/css">
+        #form_login input, img {
+            position: absolute;
+            border: none;
+        }
+    </style>
+    <script th:inline="javascript">
+        var host = [[${#httpServletRequest.getContextPath()}]];
+        $(function () {
+            $("body").css("background-image", "url(" + host + "/img/login/bg.png)");
+            $("#btn_login").css("background-image", "url(" + host + "/img/login/login.png)");
+            refreshCode();
+        });
 
-                            if (r.data && typeof r.data ==="string") {
-                                window.setTimeout(function () {
-                                    window.location.href = host + r.data;
-                                },1000);
-                            }
+        function refreshCode() {
+            //$('#imgcode').attr('src', host+'/admin/getcode/' + Math.random());
+        }
+
+        function login() {
+            var data = SERIALIZE.toObj("form_login");
+            $.ajax({
+                url: host + "/account/login",
+                data: data,
+                type: "post",
+                dataType: "json",
+                success: function (r) {
+                    if (r) {
+                        $.messager.alert('提示', r.message);
+
+                        if (r.data && typeof r.data === "string") {
+                            window.setTimeout(function () {
+                                window.location.href = host + r.data;
+                            }, 1000);
                         }
                     }
-                });
-            }
-        </script>
-    </head>
-    <body >
-    <div layout:fragment="content" >
-        <form id="form_login" method="post">
-            <input name="username" style="width: 227px;height: 21px;left: 916px;top: 511px;" type="text">
-            <input name="password" style="width: 227px;height: 21px;left: 916px;top: 561px;" type="password" autocomplete="off">
-            <input name="code" style="width: 152px;height: 21px;left: 881px;top: 611px;" type="text"  autocomplete="off">
-            <img id="imgcode" style="width: 91px;height: 29px;left: 1052px;top: 604px;cursor: pointer; " onclick="refreshCode()">
-            <input id="btn_login" name="Btnlogin" value="" style="background-color: transparent;width: 150px;height: 28px;left: 885px;top: 672px;"  onclick="login()">
-        </form>
-    </div>
-    </body>
+                }
+            });
+        }
+    </script>
+</head>
+<body layout:fragment="content">
+    <form id="form_login" method="post">
+        <input name="username" style="width: 227px;height: 21px;left: 916px;top: 511px;" type="text">
+        <input name="password" style="width: 227px;height: 21px;left: 916px;top: 561px;" type="password" autocomplete="off">
+        <input name="code" style="width: 152px;height: 21px;left: 881px;top: 611px;" type="text" autocomplete="off">
+        <img id="imgcode" style="width: 91px;height: 29px;left: 1052px;top: 604px;cursor: pointer; "
+             onclick="refreshCode()">
+        <input id="btn_login" name="Btnlogin" value=""
+               style="background-color: transparent;width: 150px;height: 28px;left: 885px;top: 672px;" onclick="login()">
+    </form>
+</body>
 </html>

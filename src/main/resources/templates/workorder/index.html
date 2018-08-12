@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html layout:decorate="~{shared/easuiIndexLayout}">
+<head>
+    <title></title>
+    <style type="text/css">
+        body {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+    <script type="text/javascript" th:src="@{/js/viewModel/workorder.js}"></script>
+    <script th:inline="javascript">
+        var host = [[${#httpServletRequest.getContextPath()}]];
+
+        $(function () {
+            initCrl();
+
+            initGrid();
+        });
+
+        function initCrl() {
+            //
+        }
+
+        function initGrid() {
+            var option = easyuiUtil.datagrid.getOptionTemplate();
+            option.iconCls = 'icon-table';
+            option.url = host + "/workorder/findByPage";
+            option.columns.push([
+                {field: 'id', hidden: true},
+                {field: 'status', title: "工单状态", align: 'center', width: '10%', formatter: WOKRORDER.formatStatus},
+                {field: 'importName', title: "工单类型", align: 'center', width: '10%'},
+                {field: 'orderNo', title: "工单号", align: 'center', width: '10%'},
+                {field: 'sendName', title: "派发人员", align: 'center', width: '7%'},
+                {field: 'sendTime', title: "派发时间", align: 'center', width: '7%'},
+                {field:'organizationName',title:"接收单位",align:'center',width:'7%'},
+                {field:'content',title:"业务内容",align:'center',width:'7%'},
+                {field:'managerName',title:"处理人员",align:'center',width:'7%'},
+                // {field:'',title:"联系电话",align:'center',width:'7%'},
+                // {field:'',title:"完成时间",align:'center',width:'7%'},
+                // {field:'',title:"耗时",align:'center',width:'7%'},
+                // {field:'',title:"耗时",align:'center',width:'7%'},
+                // {field:'',title:"链接原指标",align:'center',width:'7%'}
+            ]);
+
+
+            option = easyuiUtil.datagrid.combineOption(option);
+
+            var height = $(window).height();
+
+            $('#mainTable').datagrid(option);
+        }
+    </script>
+</head>
+<body layout:fragment="content">
+<table id="mainTable" cellspacing="0" cellpadding="0" style="width:100%; height:100%"
+       data-options="toolbar:'#toolBar_mainTable',fitColumns:true"></table>
+<div id="toolBar_mainTable" style="padding: 5px; height: auto; display: none">
+    <div style="margin-bottom: 5px">
+        <form id="form_search">
+
+            <a href="#" class="easyui-linkbutton" iconcls="icon-search" plain="false" onclick="QueryDa()">查询</a>
+            <a href="#" class="easyui-linkbutton" iconcls="icon-cancel" plain="false" onclick="ResetCondition()">清空</a>
+        </form>
+    </div>
+</div>
+</body>
+</html>
