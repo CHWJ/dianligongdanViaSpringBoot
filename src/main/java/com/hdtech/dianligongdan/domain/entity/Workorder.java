@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity(name = "dianli_workorder")
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 public class Workorder  extends BaseEntity implements Serializable {
 	@Column(name = "order_no")
 	private String orderNo;
@@ -27,7 +28,7 @@ public class Workorder  extends BaseEntity implements Serializable {
 	private FilingEnum filing;
 	@Column(name = "send_id")
 	private int sendId;
-	private int ishotwork;
+	private Integer ishotwork;
 	@Column(name = "send_time")
 	private LocalDateTime sendTime;
 	@Column(name = "organization_id")
@@ -46,8 +47,20 @@ public class Workorder  extends BaseEntity implements Serializable {
 	private String sendName;
 	@Transient
 	private String workorderUserName;
+	@Transient
+	private String workorderUserPhonenum;
+//	@Transient
+//	private String expectArrivaltime;
 
 	public Workorder() {
+	}
+
+	public String getWorkorderUserPhonenum() {
+		return workorderUserPhonenum;
+	}
+
+	public void setWorkorderUserPhonenum(String workorderUserPhonenum) {
+		this.workorderUserPhonenum = workorderUserPhonenum;
 	}
 
 	public String getWorkorderUserName() {
@@ -162,11 +175,11 @@ public class Workorder  extends BaseEntity implements Serializable {
 		this.sendId = sendId;
 	}
 
-	public int getIshotwork() {
+	public Integer getIshotwork() {
 		return ishotwork;
 	}
 
-	public void setIshotwork(int ishotwork) {
+	public void setIshotwork(Integer ishotwork) {
 		this.ishotwork = ishotwork;
 	}
 

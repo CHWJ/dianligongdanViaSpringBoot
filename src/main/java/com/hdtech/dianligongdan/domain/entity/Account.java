@@ -4,7 +4,8 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-@Entity(name = "dianli_managers")
+@Entity
+@Table(name = "dianli_managers")
 public class Account extends BaseEntity implements Serializable {
     @Column(name = "last_login_time")
 	private LocalDateTime lastLoginTime;

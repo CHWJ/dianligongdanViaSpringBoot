@@ -16,7 +16,7 @@ public class BaseService<T> {
         }
         return result;
     }
-    PageResult<T> toPageResult(List<T> collection, Long total){
+    <R> PageResult toPageResult(List<R> collection, Long total){
         return new PageResult<>(total,collection);
     }
 }

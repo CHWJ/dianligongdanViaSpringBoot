@@ -1,13 +1,11 @@
 package com.hdtech.dianligongdan.service;
 
-import com.hdtech.dianligongdan.domain.entity.Account;
-import com.hdtech.dianligongdan.domain.entity.Import;
-import com.hdtech.dianligongdan.domain.entity.Workorder;
-import com.hdtech.dianligongdan.domain.entity.WorkorderUser;
+import com.hdtech.dianligongdan.domain.entity.*;
 import com.hdtech.dianligongdan.repository.AccountRepository;
 import com.hdtech.dianligongdan.repository.ImportRepository;
 import com.hdtech.dianligongdan.repository.WorkorderRepository;
 import com.hdtech.dianligongdan.repository.WorkorderUserRepository;
+import com.hdtech.dianligongdan.utils.JsonHelper;
 import com.hdtech.dianligongdan.utils.easyUiAdapter.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -64,13 +62,18 @@ public class WorkorderService extends BaseService<Workorder> {
             List<Integer> sendIds = list.stream().map(Workorder::getSendId).distinct().collect(toList());
             List<Account> sendList = accountRepository.findByIdIn(sendIds);
             List<Integer> workorderIds = list.stream().map(Workorder::getId).distinct().collect(toList());
-            List<WorkorderUser> workorderUserList = workorderUserRepository.findByWorkorderIdIn(workorderIds);
+            List<WorkorderUserDto> workorderUserList = workorderUserRepository.findByWorkorderIds(workorderIds);
 
             for (Workorder item : list) {
                 importList.stream().filter(x -> x.getId() == item.getImportId()).findFirst().ifPresent(temp -> item.setImportName(temp.getName()));
                 sendList.stream().filter(x -> x.getId() == item.getSendId()).findFirst().ifPresent(temp -> item.setSendName(temp.getName()));
                 workorderUserList.stream().filter(x -> x.getWorkorderId() == item.getId()).findFirst().ifPresent(temp -> item.setWorkorderUserName(temp.getManagerName()));
+                workorderUserList.stream().filter(x -> x.getWorkorderId() == item.getId()).findFirst().ifPresent(temp -> item.setWorkorderUserPhonenum(temp.getPhoneNum()));
             }
+
+            JsonHelper helper = new JsonHelper();
+            List<WorkorderDto> newList = helper.toArray(list, WorkorderDto.class);
+            return toPageResult(newList, result.getTotalElements());
         }
 
         return toPageResult(list, result.getTotalElements());
