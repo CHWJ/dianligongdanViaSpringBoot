@@ -1,5 +1,7 @@
 package com.hdtech.dianligongdan.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -8,32 +10,34 @@ import java.time.LocalDateTime;
 @Table(name = "dianli_managers")
 public class Account extends BaseEntity implements Serializable {
     @Column(name = "last_login_time")
-	private LocalDateTime lastLoginTime;
-	private LocalDateTime created;
-	private String appversion;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime lastLoginTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime created;
+    private String appversion;
     @Column(name = "IMEI")
-	private String iMEI;
-	private String phonenum;
+    private String iMEI;
+    private String phonenum;
     @Enumerated(EnumType.STRING)
-	private AccountType type;
+    private AccountType type;
     @Enumerated(EnumType.STRING)
-	private AccountEnabled enabled;
-	private String password;
-	private String post;
+    private AccountEnabled enabled;
+    private String password;
+    private String post;
     @Column(name = "last_login_ip")
-	private String lastLoginIp;
-	@Column(name = "organization_id")
-	private int organizationId;
-	@Column(name = "manager_role_id")
-	private int managerRoleId;
-	private String name;
-	@Id
-	private int id;
+    private String lastLoginIp;
+    @Column(name = "organization_id")
+    private int organizationId;
+    @Column(name = "manager_role_id")
+    private int managerRoleId;
+    private String name;
+    @Id
+    private int id;
     @Column(name = "last_os")
-	private String lastOs;
+    private String lastOs;
     @Column(name = "last_cid")
-	private String lastCid;
-	private String username;
+    private String lastCid;
+    private String username;
 
     public LocalDateTime getLastLoginTime() {
         return lastLoginTime;
@@ -175,9 +179,10 @@ public class Account extends BaseEntity implements Serializable {
     }
 }
 
-enum AccountType{
-    front,back,leader,charge
+enum AccountType {
+    front, back, leader, charge
 }
-enum AccountEnabled{
-    y,n
+
+enum AccountEnabled {
+    y, n
 }

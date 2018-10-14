@@ -6,6 +6,11 @@ public class WorkorderDto extends Workorder {
     private String expectArrivaltime;
 
     public WorkorderDto() {
+        super();
+    }
+
+    public WorkorderDto(Workorder wo) {
+        super(wo);
     }
 
     public String getExpectArrivaltime() {

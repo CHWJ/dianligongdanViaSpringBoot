@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html layout:decorate="~{shared/easuiIndexLayout}">
+<html layout:decorate="~{shared/easuiIndexLayout}" xmlns:layout="http://www.w3.org/1999/xhtml">
 <head>
     <title></title>
     <style type="text/css">
@@ -10,7 +10,7 @@
     </style>
     <script type="text/javascript" th:src="@{/js/viewModel/workorder.js}"></script>
     <script th:inline="javascript">
-        var host = [[${#httpServletRequest.getContextPath()}]];
+        let host = [[${#httpServletRequest.getContextPath()}]];
 
         $(function () {
             initCrl();
@@ -19,34 +19,46 @@
         });
 
         function initCrl() {
-            //
+            $("#organId").combotree({
+                url: '/admin_workorder/company_data'
+            });
         }
 
         function initGrid() {
-            var option = easyuiUtil.datagrid.getOptionTemplate();
+            let option = easyuiUtil.datagrid.getOptionTemplate();
             option.iconCls = 'icon-table';
             option.url = host + "/workorder/findByPage";
             option.columns.push([
                 {field: 'id', hidden: true},
                 {field: 'status', title: "工单状态", align: 'center', width: '10%', formatter: WOKRORDER.formatStatus},
                 {field: 'importName', title: "工单类型", align: 'center', width: '10%'},
-                {field: 'orderNo', title: "工单号", align: 'center', width: '10%'},
+                {field: 'orderNo', title: "工单号", align: 'center', width: '12%'},
                 {field: 'sendName', title: "派发人员", align: 'center', width: '7%'},
-                {field: 'sendTime', title: "派发时间", align: 'center', width: '7%'},
-                {field:'organizationName',title:"接收单位",align:'center',width:'7%'},
-                {field:'content',title:"业务内容",align:'center',width:'7%'},
-                {field:'workorderUserName',title:"处理人员",align:'center',width:'7%'},
-                {field:'workorderUserPhonenum',title:"联系电话",align:'center',width:'7%'},
-                {field:'finishTime',title:"完成时间",align:'center',width:'7%'},
+                {field: 'sendTime', title: "派发时间", align: 'center', width: '11%'},
+                {field: 'organizationName', title: "派发单位", align: 'center', width: '10%'},
+                {
+                    field: 'content',
+                    title: "业务内容",
+                    align: 'center',
+                    width: '7%',
+                    formatter: function (value, row, index) {
+                        if (value) {
+                            if (value.indexOf(".jpg") > -1) {
+                                return '<img src="{0}" />'.replace("{0}", value);
+                            }
+                        }
+                        return value;
+                    }
+                },
+                {field: 'workorderUserName', title: "处理人员", align: 'center', width: '10%'},
+                {field: 'workorderUserPhonenum', title: "联系电话", align: 'center', width: '10%'},
+                {field: 'finishTime', title: "完成时间", align: 'center', width: '11%'},
                 // {field:'',title:"耗时",align:'center',width:'7%'},
                 // {field:'',title:"耗时",align:'center',width:'7%'},
                 // {field:'',title:"链接原指标",align:'center',width:'7%'}
             ]);
 
-
             option = easyuiUtil.datagrid.combineOption(option);
-
-            var height = $(window).height();
 
             $('#mainTable').datagrid(option);
         }
@@ -58,6 +70,7 @@
 <div id="toolBar_mainTable" style="padding: 5px; height: auto; display: none">
     <div style="margin-bottom: 5px">
         <form id="form_search">
+            <input id="organId"/>
 
             <a href="#" class="easyui-linkbutton" iconcls="icon-search" plain="false" onclick="QueryDa()">查询</a>
             <a href="#" class="easyui-linkbutton" iconcls="icon-cancel" plain="false" onclick="ResetCondition()">清空</a>

@@ -1,5 +1,7 @@
 package com.hdtech.dianligongdan.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -14,7 +16,10 @@ public class Workorder  extends BaseEntity implements Serializable {
 	private LevelEnum level;
 	@Column(name = "refuse_reason")
 	private String refuseReason;
+
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private LocalDateTime created;
+
 	@Column(name = "import_id")
 	private int importId;
 	@Column(name = "organization_name")
@@ -22,22 +27,32 @@ public class Workorder  extends BaseEntity implements Serializable {
 	@Column(name = "pros_content")
 	private String prosContent;
 	private String content;
+
 	@Column(name = "finish_time")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private LocalDateTime finishTime;
+
 	@Enumerated(EnumType.STRING)
 	private FilingEnum filing;
 	@Column(name = "send_id")
 	private int sendId;
 	private Integer ishotwork;
+
 	@Column(name = "send_time")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private LocalDateTime sendTime;
+
 	@Column(name = "organization_id")
 	private int organizationId;
 	@Column(name = "importrow_id")
 	private int importrowId;
+
 	@Id
 	private int id;
+
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private LocalDateTime updated;
+
 	@Enumerated(EnumType.STRING)
 	private StatusEnum status;
 
@@ -52,8 +67,12 @@ public class Workorder  extends BaseEntity implements Serializable {
 //	@Transient
 //	private String expectArrivaltime;
 
-	public Workorder() {
+	protected Workorder(Workorder wo) {
 	}
+
+    public Workorder() {
+
+    }
 
 	public String getWorkorderUserPhonenum() {
 		return workorderUserPhonenum;

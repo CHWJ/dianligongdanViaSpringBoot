@@ -71,9 +71,7 @@ public class WorkorderService extends BaseService<Workorder> {
                 workorderUserList.stream().filter(x -> x.getWorkorderId() == item.getId()).findFirst().ifPresent(temp -> item.setWorkorderUserPhonenum(temp.getPhoneNum()));
             }
 
-            JsonHelper helper = new JsonHelper();
-            List<WorkorderDto> newList = helper.toArray(list, WorkorderDto.class);
-            return toPageResult(newList, result.getTotalElements());
+            return toPageResult(list, result.getTotalElements());
         }
 
         return toPageResult(list, result.getTotalElements());
