@@ -1,6 +1,8 @@
 package com.hdtech.dianligongdan.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.hdtech.dianligongdan.domain.enumType.AccountType;
+import com.hdtech.dianligongdan.domain.enumType.AccountEnabledType;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -21,7 +23,7 @@ public class Account extends BaseEntity implements Serializable {
     @Enumerated(EnumType.STRING)
     private AccountType type;
     @Enumerated(EnumType.STRING)
-    private AccountEnabled enabled;
+    private AccountEnabledType enabled;
     private String password;
     private String post;
     @Column(name = "last_login_ip")
@@ -87,11 +89,11 @@ public class Account extends BaseEntity implements Serializable {
         this.type = type;
     }
 
-    public AccountEnabled getEnabled() {
+    public AccountEnabledType getEnabled() {
         return enabled;
     }
 
-    public void setEnabled(AccountEnabled enabled) {
+    public void setEnabled(AccountEnabledType enabled) {
         this.enabled = enabled;
     }
 
@@ -177,12 +179,4 @@ public class Account extends BaseEntity implements Serializable {
 
     public Account() {
     }
-}
-
-enum AccountType {
-    front, back, leader, charge
-}
-
-enum AccountEnabled {
-    y, n
 }

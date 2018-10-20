@@ -13,14 +13,29 @@
         let host = [[${#httpServletRequest.getContextPath()}]];
 
         $(function () {
-            initCrl();
+            initControl();
 
             initGrid();
         });
 
-        function initCrl() {
+        function initControl() {
+            $("#userId").combobox({
+                valueField: "id",
+                textField: "text",
+                data: []
+            });
+
             $("#organId").combotree({
-                url: '/admin_workorder/company_data'
+                url: host + '/organ/findTree',
+                valueField: "id",
+                textField: "text",
+                onChange: function (newValue, oldValue) {
+                    $("#userId").combobox({
+                        url: host + '/account/findByOrganId?id=' + newValue,
+                        valueField: "id",
+                        textField: "name"
+                    });
+                }
             });
         }
 
@@ -62,6 +77,18 @@
 
             $('#mainTable').datagrid(option);
         }
+
+        function queryByCondition() {
+            let bTime = $("#bTime").datetimebox("getValue");
+            let eTime = $("#eTime").datetimebox("getValue");
+            let param = {
+                beginTime: bTime,
+                endTime: eTime,
+                organId: $("#organId").combotree("getValue"),
+                userId: $("#userId").combobox("getValue")
+            };
+            $('#mainTable').datagrid('load', {paramJson: JSON.stringify(param)});
+        }
     </script>
 </head>
 <body layout:fragment="content">
@@ -70,9 +97,12 @@
 <div id="toolBar_mainTable" style="padding: 5px; height: auto; display: none">
     <div style="margin-bottom: 5px">
         <form id="form_search">
-            <input id="organId"/>
+            派发时间：<input id="bTime" class="easyui-datetimebox"/>至<input id="eTime" class="easyui-datetimebox"/>
+            供电单位：<select id="organId"></select>
+            处理人员：<select id="userId"></select>
 
-            <a href="#" class="easyui-linkbutton" iconcls="icon-search" plain="false" onclick="QueryDa()">查询</a>
+            <a href="#" class="easyui-linkbutton" iconcls="icon-search" plain="false"
+               onclick="queryByCondition()">查询</a>
             <a href="#" class="easyui-linkbutton" iconcls="icon-cancel" plain="false" onclick="ResetCondition()">清空</a>
         </form>
     </div>

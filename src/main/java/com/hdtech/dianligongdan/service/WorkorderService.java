@@ -1,11 +1,13 @@
 package com.hdtech.dianligongdan.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hdtech.dianligongdan.domain.entity.*;
 import com.hdtech.dianligongdan.repository.AccountRepository;
 import com.hdtech.dianligongdan.repository.ImportRepository;
 import com.hdtech.dianligongdan.repository.WorkorderRepository;
 import com.hdtech.dianligongdan.repository.WorkorderUserRepository;
 import com.hdtech.dianligongdan.utils.JsonHelper;
+import com.hdtech.dianligongdan.utils.StringHelper;
 import com.hdtech.dianligongdan.utils.easyUiAdapter.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -37,7 +39,7 @@ public class WorkorderService extends BaseService<Workorder> {
     private AccountRepository accountRepository;
 
 
-    public PageResult<Workorder> findByPage(Workorder wo, Integer pageNum, Integer pageSize) {
+    public PageResult<Workorder> findByPage(String paramJson, Integer pageNum, Integer pageSize) {
         Pageable pageable = new PageRequest(pageNum, pageSize, new Sort(Sort.Direction.DESC, "id"));
         Specification<Workorder> spec = new Specification<Workorder>() {
             private static final long serialVersionUID = 1L;
@@ -45,8 +47,11 @@ public class WorkorderService extends BaseService<Workorder> {
             @Override
             public Predicate toPredicate(Root<Workorder> root, CriteriaQuery<?> crite, CriteriaBuilder cb) {
                 List<Predicate> pr = new ArrayList<>();
-                if (wo != null && wo.getOrderNo() != null) {
-                    pr.add(cb.like(root.get("name").as(String.class), "%" + wo.getOrderNo() + "%"));
+                if (StringHelper.hasValue(paramJson)) {
+                    //ObjectMapper objectMapper = new ObjectMapper();
+                    //objectMapper
+                    //if(wo.)
+                    //pr.add(cb.like(root.get("name").as(String.class), "%" + wo.getOrderNo() + "%"));
                 }
                 return cb.and(pr.toArray(new Predicate[pr.size()]));
             }

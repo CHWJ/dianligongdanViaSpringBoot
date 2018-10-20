@@ -1,7 +1,11 @@
-var SERIALIZE={
-    toObj : function (formId) {
-        var serializeObj = {};
-        var array = $('#' + formId).serializeArray();
+/**
+ * 需要引用 jQuery 文件
+ */
+
+let SERIALIZE = {
+    toObj: function (formId) {
+        let serializeObj = {};
+        let array = $('#' + formId).serializeArray();
 
         $(array).each(function () {
             if (serializeObj[this.name]) {

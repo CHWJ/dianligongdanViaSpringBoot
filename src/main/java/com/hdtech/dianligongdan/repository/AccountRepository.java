@@ -8,6 +8,9 @@ import java.util.List;
 
 @Repository
 public interface AccountRepository extends JpaRepository<Account, String> {
-    Account findByUsernameAndPassword(String name,String pwd);
+    Account findByUsernameAndPassword(String name, String pwd);
+
     List<Account> findByIdIn(List<Integer> ids);
+
+    List<Account> findByOrganizationId(int id);
 }

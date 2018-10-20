@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface OrganizationRepository extends JpaRepository<Organization, Integer> {
-    List<Organization> getAll();
+    List<Organization> findAll();
 }

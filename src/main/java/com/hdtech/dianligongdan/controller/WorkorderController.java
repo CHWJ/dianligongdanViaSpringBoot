@@ -1,6 +1,7 @@
 package com.hdtech.dianligongdan.controller;
 
 import com.hdtech.dianligongdan.domain.entity.Workorder;
+import com.hdtech.dianligongdan.domain.entity.WorkorderModel;
 import com.hdtech.dianligongdan.service.WorkorderService;
 import com.hdtech.dianligongdan.utils.easyUiAdapter.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +25,12 @@ public class WorkorderController extends BaseController<Workorder> {
     }
 
     @PostMapping("/findByPage")
-    public PageResult<Workorder> findByPage(@RequestParam(required = false) Workorder wo,
+    public PageResult<Workorder> findByPage(@RequestParam(required = false) String paramJson,
                                             @RequestParam(required = false) Integer page,
                                             @RequestParam(required = false) Integer rows) {
         page = Integer.valueOf(page == null ? 0 : (page - 1));
         if (rows == null) rows = 10;
-        PageResult<Workorder> list = workorderService.findByPage(wo, page, rows);
+        PageResult<Workorder> list = workorderService.findByPage(paramJson, page, rows);
         return list;
     }
 }

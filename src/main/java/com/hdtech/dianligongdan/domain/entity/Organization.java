@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "dianli_organization")
@@ -19,10 +19,11 @@ public class Organization extends BaseEntity implements Serializable {
     public String fullpath;
     public String description;
 
+    @Enumerated(EnumType.STRING)
     public IsAccepter isAccepter;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    public LocalTime created;
+    public LocalDateTime created;
 }
 
 enum IsAccepter {
